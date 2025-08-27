@@ -39,7 +39,7 @@ export default function HowToJoin() {
 
         <div className="w-full flex flex-row justify-center">
           <PrimaryButton
-            label="グループに参加する"
+            label="youtubeに参加する"
             href={import.meta.env.PUBLIC_VRCHAT_GROUP_URL}
             className="mt-8"
             newTab
