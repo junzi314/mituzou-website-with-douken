@@ -1,0 +1,81 @@
+---
+import Footer from '@/components/Footer.astro';
+import SplashScreen from '@/components/SplashScreen.astro';
+import StructuredData from '@/components/StructuredData.astro';
+
+import Menu from '@/components/Menu';
+import type { Assets } from '@/libs/stores/assets';
+import type { Person } from '@/libs/stores/people';
+import { SEO } from 'astro-seo';
+import Font from './Font.astro';
+import GoogleAnalytics from './GoogleAnalytics.astro';
+
+type Props = {
+  title?: string;
+  description?: string;
+  xSite?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  assets: Assets;
+  performers: Person[];
+};
+
+const {
+  title = 'アニメミツゾウ大作戦 | テキストテキスト',
+  description = 'アニメミツゾウ大作戦は、RChatで開催されるオールナイトのDJイベントです。アニメ制作禁止国家での密造アニメーション',
+  xSite = '@アニメミツゾウ大作戦',
+  noindex = false,
+  nofollow = false,
+  assets,
+  performers,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+    <SEO
+      title={title}
+      description={description}
+      twitter={{
+        site: xSite,
+        title,
+        description,
+        image: `${assets.ogp.url}?timestamp=20250604`,
+        imageAlt: 'バーチャルケモナイト',
+        card: 'summary_large_image',
+      }}
+      openGraph={{
+        basic: { title, type: 'website', image: `${assets.ogp.url}?timestamp=20250604` },
+      }}
+      noindex={noindex}
+      nofollow={nofollow}
+      charset="UTF-8"
+      extend={{
+        link: [
+          { rel: "icon", type: "image/svg+xml", href: assets.favicon.url },
+          { rel: "preconnect", href: "https://images.microcms-assets.io" },
+          { rel: "preconnect", href: "https://foxseedlab-vkemonight-storage.2314.world" },
+        ],
+        meta: [
+          { name: "viewport", content: "width=device-width, initial-scale=1" },
+          { property: "og:locale", content: "ja_JP" },
+          { property: "og:theme-color", content: "#1E1E1E" },
+        ],
+      }}
+    />
+    <link rel="preload" fetchpriority="high" as="image" href={assets.logos.white.url} />
+
+    <meta name="theme-color" content="#1E1E1E" />
+    <Font />
+    <GoogleAnalytics />
+    <StructuredData ogp={assets.ogp} performers={performers} />
+  </head>
+
+	<body>
+    <SplashScreen />
+		<slot />
+    <Footer assets={assets} />
+    <Menu assets={assets} client:load />
+	</body>
+</html>

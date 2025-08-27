@@ -1,0 +1,34 @@
+---
+const siteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const measurementId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID;
+
+const gaScriptContent = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "${measurementId}");
+
+  window.sendGAEvent = function(eventName, parameters = {}) {
+    gtag('event', eventName, parameters);
+  };
+
+  window.sendGAEvent('page_view_enhanced', {
+    category: 'navigation',
+    label: 'landing_page',
+    user_agent: navigator.userAgent,
+    screen_resolution: screen.width + 'x' + screen.height,
+    viewport_size: window.innerWidth + 'x' + window.innerHeight
+  });
+`;
+---
+
+<script
+  is:inline
+  type="text/partytown"
+  async
+  src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}></script>
+<script is:inline type="text/partytown" set:html={gaScriptContent} />
+
+<meta name="google-site-verification" content={siteVerification} />

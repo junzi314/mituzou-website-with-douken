@@ -1,0 +1,85 @@
+---
+import FeaturedImage from '@/libs/FeaturedImage';
+import SectionBody from '@/libs/SectionBody';
+import PrimaryButton from '@/libs/buttons/PrimaryButton';
+import Header1 from '@/libs/headers/Header1';
+import Header2 from '@/libs/headers/Header2';
+import Paragraph from '@/libs/headers/Paragraph';
+
+import type { Patron } from '@/libs/stores/assets';
+import type { Image } from '@/libs/stores/init';
+
+type Props = {
+  featuredImage: Image;
+  patrons: Patron[];
+};
+
+const { featuredImage, patrons = [] } = Astro.props;
+const kofiUrl = import.meta.env.PUBLIC_KOFI_URL;
+
+const honorific = '様';
+
+// 安全にpatrons配列を扱うためのチェック
+const safePatrons = Array.isArray(patrons) ? patrons : [];
+---
+
+<section class="mt-96 md:mt-72" id="contribute">
+  <Header1 title="CONTRIBUTE" titleJa="ゴゴゴゴゴ" className="mb-16" right small client:load />
+
+  <div class="flex flex-col md:flex-row">
+    <div class="w-full md:w-1/2">
+      <FeaturedImage image={featuredImage} />
+    </div>
+
+    <div class="mt-20 md:mt-10 w-full md:w-1/2 flex flex-col items-center">
+      <SectionBody className="half-container-max-width" client:load>
+        <Header2 title="あああああああ" className="mb-10" />
+
+        <Paragraph className="mb-8 w-full">
+          支援テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+          テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+        </Paragraph>
+
+        <Paragraph className="mb-8 w-full">
+          大切にテキストテキストテキストテキストテキストテキストテキストテキスト
+          テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+          テキストテキストテキストテキストテキストテキスト
+        </Paragraph>
+
+        <div class="mt-8 p-6 w-full border-2 border-primary">
+          <h3 class="mb-2 font-bold">テキストテキストテキスト特典</h3>
+          <ul class="list-disc list-outside pl-5">
+            <li>お疲れ様本に掲載</li>
+          </ul>
+
+          <h3 class="mt-8 mb-2 font-bold">テキストテキストテキスト特典</h3>
+          <ul class="list-disc list-outside pl-5">
+            <li>テキストテキストテキストテキストテキストテキストテキストテキスト</li>
+          </ul>
+        </div>
+
+        <PrimaryButton
+          label="Ko-fi で&#8203;支援する"
+          href={kofiUrl}
+          className="mt-16"
+          newTab
+        />
+
+        <div class="mt-8 text-center">
+          <p class="mb-2">テキストテキストテキスト、心より感謝申し上げます。</p>
+          <p>
+            {safePatrons.length > 0 ? (
+              safePatrons.map((patron, index) => (
+                <span>
+                  {patron.name}{patron.is_need_honorific ? honorific : ''}{index !== safePatrons.length - 1 ? '、' : ''}
+                </span>
+              ))
+            ) : (
+              <span>テキストテキストテキスト情報を準備中です。</span>
+            )}
+          </p>
+        </div>
+      </SectionBody>
+    </div>
+  </div>
+</section>

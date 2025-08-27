@@ -1,0 +1,45 @@
+---
+import { fetchAssets } from '@/libs/stores/assets';
+import {
+  fetchGuestsWithoutSpecial,
+  fetchOrganizers,
+  fetchPerformers,
+  fetchSpecialGuests,
+  fetchStaffsWithoutOrganizer,
+} from '@/libs/stores/people';
+import { fetchDJSchedules } from '@/libs/stores/schedules';
+
+import BaseLayout from '@/layouts/Base.astro';
+
+import About from '@/components/About.astro';
+import Contact from '@/components/Contact.astro';
+import Contribute from '@/components/Contribute.astro';
+import FAQStructuredData from '@/components/FAQStructuredData.astro';
+import Guests from '@/components/Guests.astro';
+import Hero from '@/components/Hero';
+import Staffs from '@/components/Staffs.astro';
+import TimeSchedule from '@/components/TimeSchedule.astro';
+
+import '@/styles/global.css';
+
+const assets = await fetchAssets();
+const specialGuests = await fetchSpecialGuests();
+const guests = await fetchGuestsWithoutSpecial();
+const djSchedules = await fetchDJSchedules();
+const organizers = await fetchOrganizers();
+const staffs = await fetchStaffsWithoutOrganizer();
+const performers = await fetchPerformers();
+---
+
+<BaseLayout assets={assets} performers={performers}>
+  <Hero assets={assets} client:only />
+  <About featuredImages={assets.featured_images.about} />
+  <Guests specialGuests={specialGuests} guests={guests} assets={assets} />
+  <TimeSchedule djSchedules={djSchedules} featuredImage={assets.featured_images.timeschedule} assets={assets} />
+  <Contribute featuredImage={assets.featured_images.contribute} patrons={assets.patrons} />
+  <Staffs organizers={organizers} staffs={staffs} assets={assets} />
+  <Contact />
+
+  <!-- 構造化タグ -->
+  <FAQStructuredData />
+</BaseLayout>
