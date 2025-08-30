@@ -59,7 +59,7 @@ export default function Hero({ assets }: Props) {
         >
           <img
             src={assets.logos.white.url}
-            alt="バーチャルケモナイト ロゴ"
+            alt="ミツゾウ ロゴ"
             className="w-full select-none pointer-events-none"
             draggable={false}
             width="512"

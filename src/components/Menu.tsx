@@ -135,7 +135,7 @@ function DesktopMenu({
                 }}
                 transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
                 src={assets.logos.black.url}
-                alt="バーチャルケモナイト ロゴ"
+                alt="ミツゾウ ロゴ"
                 className="h-full py-2 object-cover object-left select-none pointer-events-none"
                 draggable={false}
               />
